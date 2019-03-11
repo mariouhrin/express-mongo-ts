@@ -85,9 +85,8 @@ export async function getInactiveCustomers(
 }
 
 export async function getCustomerByID(req: IExtendedRequest, res: Response, next: NextFunction) {
-  const _id = new ObjectID(req.params._id);
-
   try {
+    const _id = new ObjectID(req.params._id);
     const customersCollection = await getCustomersCollection(req);
     const customer: Customer = await customersCollection.findOne({ _id });
 
@@ -102,9 +101,8 @@ export async function getCustomerByID(req: IExtendedRequest, res: Response, next
 }
 
 export async function createCustomer(req: IExtendedRequest, res: Response, next: NextFunction) {
-  const customer: Customer = req.body as Customer;
-
   try {
+    const customer: Customer = req.body as Customer;
     const sequence = await getSequenceCollection(req);
     const customersCollection = await getCustomersCollection(req);
 
@@ -124,6 +122,50 @@ export async function createCustomer(req: IExtendedRequest, res: Response, next:
 
     res.status(201).send({ customerId: response.insertedId });
   } catch (err) {
-    return next(err);
+    next(err);
+  }
+}
+
+export async function updateCustomer(req: IExtendedRequest, res: Response, next: NextFunction) {
+  try {
+    const _id = new ObjectID(req.params._id);
+    const customer: Customer = req.body as Customer;
+
+    const customersCollection = await getCustomersCollection(req);
+    const checkCustomer: Customer = await customersCollection.findOne({ _id });
+
+    if (_.isEmpty(checkCustomer)) {
+      throw new Error('Not found customer by _id');
+    }
+
+    const customerDataForUpdate = {
+      ...customer,
+      registered: moment.utc(new Date()).format('YYYY-MM-DD')
+    };
+
+    await customersCollection.updateOne({ _id }, { $set: { ...customerDataForUpdate } });
+
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function deleterCustomer(req: IExtendedRequest, res: Response, next: NextFunction) {
+  try {
+    const _id = new ObjectID(req.params._id);
+    const customersCollection = await getCustomersCollection(req);
+
+    const checkCustomer: Customer = await customersCollection.findOne({ _id });
+
+    if (_.isEmpty(checkCustomer)) {
+      throw new Error('Not found customer by _id');
+    }
+
+    customersCollection.deleteOne({ _id });
+
+    res.status(204).send();
+  } catch (err) {
+    next(err);
   }
 }

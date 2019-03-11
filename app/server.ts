@@ -2,6 +2,7 @@ import express, { Response, NextFunction } from 'express';
 import morgan from 'morgan';
 import { MongoClient } from 'mongodb';
 import bodyParser from 'body-parser';
+import { errors } from 'celebrate';
 
 import { Routes } from './routes';
 import { config } from './config';
@@ -23,6 +24,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // add all routes to express
 app.use('/api', Routes);
+
+// handle Joi validation errors
+app.use(errors());
 
 // global error handling
 app.use((err: Error, req: IExtendedRequest, res: Response, next: NextFunction) => {

@@ -1,5 +1,8 @@
 import { Router } from 'express';
+import { celebrate } from 'celebrate';
+
 import * as handlers from './../handlers';
+import { JoiCustomerCreate, JoiCustomerID, JoiCustomerUpdate } from './validation';
 
 const router: Router = Router();
 
@@ -9,47 +12,12 @@ router.get('/customers/total', handlers.getTotalBalance);
 
 router.get('/customers/inactive', handlers.getInactiveCustomers);
 
-router.get('/customers/:_id', handlers.getCustomerByID);
+router.get('/customers/:_id', celebrate(JoiCustomerID), handlers.getCustomerByID);
 
-router.post('/customers', handlers.createCustomer);
-// {
-// {
-//   method: 'POST',
-//   path: '/api/customers',
-//   options: {
-//     validate: {
-//       payload: JoiCustomer
-//     },
-//     description: 'Create new customer'
-//   },
-//   handler: handler.createCustomer
-// },
-// {
-//   method: 'PUT',
-//   path: '/api/customers/{_id}',
-//   options: {
-//     validate: {
-//       params: {
-//         _id: Joi.string().required()
-//       },
-//       payload: JoiCustomer
-//     },
-//     description: 'Update customer data'
-//   },
-//   handler: handler.updateCustomer
-// },
-// {
-//   method: 'DELETE',
-//   path: '/api/customers/{_id}',
-//   options: {
-//     validate: {
-//       params: {
-//         _id: Joi.string().required()
-//       }
-//     },
-//     description: 'Delete customer by _id'
-//   },
-//   handler: handler.deleterCustomer
-// }
+router.post('/customers', celebrate(JoiCustomerCreate), handlers.createCustomer);
+
+router.put('/customers/:_id', celebrate(JoiCustomerUpdate), handlers.updateCustomer);
+
+router.delete('/customers/:_id', celebrate(JoiCustomerID), handlers.deleterCustomer);
 
 export const Routes: Router = router;
