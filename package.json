@@ -2,7 +2,7 @@
   "scripts": {
     "start": "yarn start:db && npm-run-all -s server",
     "server": "nodemon",
-    "start:debug": "DEBUG=express:* nodemon --exec ts-node ./app/server.ts",
+    "start:debug": "DEBUG=express:* yarn start",
     "start:db": "./app/scripts/run-mongo.sh && yarn init:db",
     "init:db": "ts-node ./app/db/connectAndInitDB.ts",
     "copy:env": "cp .env.example .env"
