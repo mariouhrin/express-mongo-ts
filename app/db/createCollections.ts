@@ -1,51 +1,48 @@
-import { Collection, Db } from "mongodb";
+import { Collection, Db } from 'mongodb';
 
 export async function createCustomersCollection(db: Db): Promise<Collection<any>> {
-  const customersCollection = await db.createCollection("customers", {
+  const customersCollection = await db.createCollection('customers', {
     validator: {
       $jsonSchema: {
-        bsonType: "object",
-        required: ["balance", "age", "name", "gender", "company", "email", "phone", "address"],
+        bsonType: 'object',
+        required: ['balance', 'age', 'name', 'gender', 'company', 'email', 'phone', 'address'],
         properties: {
-          _id: {
-            bsonType: "objectId"
-          },
           index: {
-            bsonType: "int",
+            bsonType: 'int',
             minimum: 0
           },
           guid: {
-            bsonType: "string"
+            bsonType: 'string'
           },
           isActive: {
-            bsonType: "bool"
+            bsonType: 'bool'
           },
           balance: {
-            bsonType: "int"
+            bsonType: 'int'
           },
           age: {
-            bsonType: "int"
+            bsonType: 'int'
           },
           name: {
-            bsonType: "string"
+            bsonType: 'string'
           },
           gender: {
-            enum: ["male", "female"]
+            enum: ['male', 'female']
           },
           company: {
-            bsonType: "string"
+            bsonType: 'string'
           },
           email: {
-            bsonType: "string"
+            bsonType: 'string'
           },
           phone: {
-            bsonType: "string"
+            bsonType: 'string'
           },
           address: {
-            bsonType: "string"
+            bsonType: 'string'
           },
           registered: {
-            bsonType: "string"
+            bsonType: 'string'
           }
         }
       }
@@ -56,16 +53,16 @@ export async function createCustomersCollection(db: Db): Promise<Collection<any>
 }
 
 export async function createSequenceCollection(db: Db): Promise<Collection<any>> {
-  const sequenceCollection = await db.createCollection("sequence", {
+  const sequenceCollection = await db.createCollection('sequence', {
     validator: {
       $jsonSchema: {
-        bsonType: "object",
+        bsonType: 'object',
         properties: {
           sequenceReference: {
-            bsonType: "string"
+            bsonType: 'string'
           },
           sequenceNumber: {
-            bsonType: "int"
+            bsonType: 'int'
           }
         }
       }

@@ -1,6 +1,7 @@
 import express, { Response, NextFunction } from 'express';
 import morgan from 'morgan';
 import { MongoClient } from 'mongodb';
+import bodyParser from 'body-parser';
 
 import { Routes } from './routes';
 import { config } from './config';
@@ -13,6 +14,12 @@ const port: number = Number(process.env.PORT);
 
 // add morgan logger to express
 app.use(morgan('dev'));
+
+// parse application/json
+app.use(bodyParser.json());
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // add all routes to express
 app.use('/api', Routes);

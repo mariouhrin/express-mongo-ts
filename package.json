@@ -8,6 +8,7 @@
     "copy:env": "cp .env.example .env"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "dotenv-safe": "^6.1.0",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
@@ -20,6 +21,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.17.0",
     "@types/dotenv-safe": "^5.0.3",
     "@types/express": "^4.16.1",
     "@types/lodash": "^4.14.122",

@@ -18,3 +18,18 @@ export function transformDataToRender(customersData: Customer[]) {
 
   return transformedData;
 }
+
+export async function getSequenceCollection(req: IExtendedRequest): Promise<Collection<any>> {
+  const db = req.app.locals.db;
+  const sequence: Collection<any> = await db.collection('sequence');
+  return sequence;
+}
+
+export async function getNextSeq(collection: Collection<any>): Promise<number> {
+  const documentRecord = await collection.findOneAndUpdate(
+    { seqRef: 'ref' },
+    { $inc: { seqNumber: 1 } }
+  );
+
+  return documentRecord.value.seqNumber;
+}
