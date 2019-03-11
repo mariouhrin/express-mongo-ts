@@ -26,7 +26,7 @@ app.use((err: Error, req: IExtendedRequest, res: Response, next: NextFunction) =
 });
 
 // run mongodb and express server
-async function initServerAndDB() {
+async function startApp() {
   try {
     const { mongoDbName, mongoUrl } = config;
     const client: MongoClient = await MongoClient.connect(mongoUrl, {
@@ -47,4 +47,4 @@ async function initServerAndDB() {
 }
 
 // initialize app
-initServerAndDB();
+startApp();
